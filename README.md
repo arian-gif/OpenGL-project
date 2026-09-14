@@ -23,6 +23,21 @@ Press `Esc` or close the window to quit.
 Optional flag:
 - `--seconds N` — auto-close after N seconds (useful for a quick smoke test instead of leaving the window open).
 
+## `modern_cube.py` — lit, tumbling cube (GLSL shaders + VBO/VAO)
+
+A rotating cube rendered through the modern, programmable OpenGL pipeline — GLSL vertex/fragment shaders, vertex data in a VBO/VAO, and an MVP (model/view/projection) matrix stack — rather than the deprecated `glBegin`/`glEnd` calls in `main.py`. This is the OpenGL vocabulary most job postings actually mean (shaders, buffers, core profile) rather than the legacy fixed-function pipeline.
+
+```bash
+python modern_cube.py
+```
+
+Uses an OpenGL 3.3 core profile context. Matrix math (`perspective`, `look_at`, rotations) lives in [`matlib.py`](matlib.py) — a small hand-written helper instead of pulling in a dependency like `pyrr`.
+
+**Resource use:** same habits as `main.py` — VSync on, ~30 FPS software cap, small window.
+
+Optional flag:
+- `--seconds N` — auto-close after N seconds (quick smoke test).
+
 ## `render_scene.py` — one-shot scene render (no window, no loop)
 
 Renders a single frame — a cube and a sphere on a checkerboard floor, lit by a point light, viewed in perspective — to an off-screen framebuffer, then saves it as a PNG and exits.
@@ -41,6 +56,8 @@ Optional flags:
 
 ## Files
 
-- [`main.py`](main.py) — live spinning-triangle demo
+- [`main.py`](main.py) — live spinning-triangle demo (fixed-function pipeline)
+- [`modern_cube.py`](modern_cube.py) — live tumbling-cube demo (GLSL shaders + VBO/VAO, core profile)
+- [`matlib.py`](matlib.py) — small matrix math helpers (`perspective`, `look_at`, rotations) used by `modern_cube.py`
 - [`render_scene.py`](render_scene.py) — one-shot offscreen scene render
-- [`requirements.txt`](requirements.txt) — `PyOpenGL`, `glfw`, `Pillow`
+- [`requirements.txt`](requirements.txt) — `PyOpenGL`, `glfw`, `Pillow`, `numpy`
